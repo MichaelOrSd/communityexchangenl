@@ -69,6 +69,20 @@
     transition: background 0.2s !important;
   }
   .nav-cta:hover { background: var(--moss-light) !important; color: white !important; }
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; cursor: pointer;
+    width: 40px; height: 40px; padding: 0;
+    flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+  }
+  .nav-toggle span {
+    display: block; width: 24px; height: 2px;
+    background: var(--moss); border-radius: 1px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* ── HERO ── */
   .hero {
@@ -394,7 +408,21 @@
     .join-form-row { grid-template-columns: 1fr; }
     .footer-inner { grid-template-columns: 1fr; }
     nav { padding: 1rem; }
-    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none;
+      position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: rgba(250,247,242,0.98);
+      backdrop-filter: blur(8px);
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(200,146,42,0.2);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a { display: block; padding: 0.9rem 2rem; font-size: 0.95rem; }
+    .nav-cta { margin: 0.5rem 2rem; text-align: center; }
     .section, .cod-section, .services-section, .edu-section, .join-section { padding: 4rem 1.5rem; }
     footer { padding: 3rem 1.5rem 2rem; }
   }
@@ -408,7 +436,12 @@
     <img src="assets/logo/communityExchange.png" alt="" class="nav-mark" width="36" height="36">
     Community Exchange <span>NL</span>
   </a>
-  <ul class="nav-links">
+  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#how-it-works">How It Works</a></li>
     <li><a href="#cod-currency">COD Currency</a></li>
     <li><a href="#services">Browse Services</a></li>
@@ -774,6 +807,24 @@
     a.href = 'mailto:' + addr;
     a.title = addr;
   });
+
+  // Mobile nav toggle
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open);
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
