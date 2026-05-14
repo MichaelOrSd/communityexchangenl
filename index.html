@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Community Exchange NL — Local Exchange Trading System</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Literata:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -46,8 +49,13 @@
     font-size: 1.2rem; font-weight: 700;
     color: var(--moss);
     text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.6rem;
   }
   .nav-logo span { color: var(--cod-gold); }
+  .nav-mark {
+    width: 36px; height: 36px;
+    flex-shrink: 0; display: block;
+  }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a {
     font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -396,7 +404,10 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">Community Exchange <span>NL</span></a>
+  <a class="nav-logo" href="#">
+    <img src="assets/logo/communityExchange.png" alt="" class="nav-mark" width="36" height="36">
+    Community Exchange <span>NL</span>
+  </a>
   <ul class="nav-links">
     <li><a href="#how-it-works">How It Works</a></li>
     <li><a href="#cod-currency">COD Currency</a></li>
