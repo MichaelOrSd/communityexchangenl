@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Exchange NL — Local Exchange Trading System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Literata:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a14;
+    --parchment: #f5f0e8;
+    --moss: #3d5a3e;
+    --moss-light: #5a7f5c;
+    --cod-gold: #c8922a;
+    --cod-gold-light: #e8b84b;
+    --sea: #2c5f7a;
+    --sea-light: #4a8fa8;
+    --cream: #faf7f2;
+    --warm-mid: #e8dfc8;
+    --text-body: #2e2e22;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Literata', Georgia, serif;
+    background: var(--cream);
+    color: var(--text-body);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(250,247,242,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(200,146,42,0.2);
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--moss);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cod-gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-body); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cod-gold); }
+  .nav-cta {
+    background: var(--moss); color: white !important;
+    padding: 0.5rem 1.2rem; border-radius: 2px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--moss-light) !important; color: white !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+    background: var(--parchment);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 80% 20%, rgba(61,90,62,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 10% 80%, rgba(200,146,42,0.08) 0%, transparent 50%);
+  }
+  .hero-text { position: relative; z-index: 2; padding-right: 3rem; }
+  .hero-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cod-gold); font-family: 'Literata', serif; font-weight: 600;
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--cod-gold);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1; color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--moss); font-style: italic; }
+  .hero-sub {
+    font-size: 1.15rem; line-height: 1.75;
+    color: #4a4a38; margin-bottom: 2.5rem;
+    font-weight: 300; max-width: 480px;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--moss); color: white;
+    padding: 0.9rem 2rem; border-radius: 2px;
+    font-family: 'Literata', serif; font-size: 0.95rem;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: all 0.25s; display: inline-block;
+    border: 2px solid var(--moss);
+  }
+  .btn-primary:hover { background: transparent; color: var(--moss); }
+  .btn-secondary {
+    background: transparent; color: var(--cod-gold);
+    padding: 0.9rem 2rem; border-radius: 2px;
+    font-family: 'Literata', serif; font-size: 0.95rem;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: all 0.25s; display: inline-block;
+    border: 2px solid var(--cod-gold);
+  }
+  .btn-secondary:hover { background: var(--cod-gold); color: white; }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem;
+  }
+  .hero-logo {
+    width: 260px; max-width: 100%; height: auto; display: block;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.25));
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+  }
+  .hero-stats {
+    display: flex; gap: 2rem;
+    background: white; padding: 1.2rem 2rem; border-radius: 4px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border-top: 3px solid var(--cod-gold);
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--moss); font-weight: 700;
+  }
+  .stat-label { font-size: 0.75rem; color: #888; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* ── WAVE ── */
+  .wave-divider { width: 100%; overflow: hidden; line-height: 0; }
+  .wave-divider svg { display: block; width: 100%; }
+
+  /* ── HOW IT WORKS ── */
+  .section { padding: 6rem 4rem; }
+  .section-label {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cod-gold); font-weight: 600;
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .section-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--cod-gold); }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--ink); margin-bottom: 1rem; line-height: 1.2;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: #5a5a48; line-height: 1.7;
+    max-width: 600px; font-weight: 300; margin-bottom: 3rem;
+  }
+
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem; margin-top: 3rem;
+  }
+  .step {
+    background: white; border-radius: 4px;
+    padding: 2rem; position: relative;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .step:hover { border-color: var(--moss); transform: translateY(-4px); }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 700;
+    color: rgba(61,90,62,0.1);
+    line-height: 1; margin-bottom: 1rem;
+    position: absolute; top: 1rem; right: 1.5rem;
+  }
+  .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .step p { font-size: 0.9rem; color: #5a5a48; line-height: 1.65; font-weight: 300; }
+
+  /* ── COD CURRENCY ── */
+  .cod-section {
+    background: var(--moss); color: white;
+    padding: 6rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .cod-section::before {
+    content: 'COD';
+    position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 18rem; font-weight: 700; opacity: 0.06;
+    color: white; line-height: 1;
+    pointer-events: none;
+  }
+  .cod-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .cod-section .section-label { color: var(--cod-gold-light); }
+  .cod-section .section-label::before { background: var(--cod-gold-light); }
+  .cod-section .section-title { color: white; }
+  .cod-section .section-sub { color: rgba(255,255,255,0.75); max-width: 100%; }
+  .cod-features { display: flex; flex-direction: column; gap: 1.5rem; }
+  .cod-feature {
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: rgba(255,255,255,0.07); border-radius: 4px;
+    padding: 1.25rem; border-left: 3px solid var(--cod-gold);
+  }
+  .cod-feature-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .cod-feature h4 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.3rem; }
+  .cod-feature p { font-size: 0.875rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+  /* ── SERVICES ── */
+  .services-section {
+    padding: 6rem 4rem;
+    background: var(--parchment);
+  }
+  .services-inner { max-width: 1100px; margin: 0 auto; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem; margin-top: 3rem;
+  }
+  .service-card {
+    background: white; border-radius: 4px;
+    padding: 1.5rem; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.25s; cursor: pointer;
+    border: 1px solid rgba(200,146,42,0.15);
+  }
+  .service-card:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    transform: translateY(-3px);
+    border-color: var(--cod-gold);
+  }
+  .service-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+  .service-card h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--ink); margin-bottom: 0.4rem; }
+  .service-card p { font-size: 0.78rem; color: #888; }
+  .services-cta-bar {
+    margin-top: 2.5rem; padding: 1.5rem 2rem;
+    background: white; border-radius: 4px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .services-cta-bar p { color: var(--text-body); font-size: 1rem; }
+  .services-cta-bar strong { color: var(--moss); }
+
+  /* ── EDUCATION ── */
+  .edu-section { padding: 6rem 4rem; background: var(--cream); }
+  .edu-inner { max-width: 1100px; margin: 0 auto; }
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .edu-card {
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform 0.25s;
+    background: white;
+  }
+  .edu-card:hover { transform: translateY(-4px); }
+  .edu-card-top {
+    padding: 2rem; border-bottom: 1px solid #f0ece0;
+  }
+  .edu-tag {
+    display: inline-block; font-size: 0.68rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.25rem 0.75rem;
+    border-radius: 20px; margin-bottom: 1rem; font-weight: 600;
+  }
+  .tag-green { background: rgba(61,90,62,0.1); color: var(--moss); }
+  .tag-blue { background: rgba(44,95,122,0.1); color: var(--sea); }
+  .tag-gold { background: rgba(200,146,42,0.1); color: var(--cod-gold); }
+  .edu-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--ink); margin-bottom: 0.6rem; }
+  .edu-card p { font-size: 0.875rem; color: #666; line-height: 1.65; font-weight: 300; }
+  .edu-card-bottom {
+    padding: 1.25rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .edu-link {
+    font-size: 0.85rem; font-weight: 600; color: var(--moss);
+    text-decoration: none; letter-spacing: 0.03em;
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+  .edu-link:hover { gap: 0.7rem; }
+
+  /* ── JOIN ── */
+  .join-section {
+    padding: 6rem 4rem;
+    background: var(--parchment);
+    text-align: center;
+  }
+  .join-inner { max-width: 680px; margin: 0 auto; }
+  .join-section .section-label { justify-content: center; }
+  .join-section .section-label::before { display: none; }
+  .join-section .section-title { font-size: clamp(2rem, 4vw, 3rem); }
+  .join-section p { font-size: 1.1rem; color: #5a5a48; margin-bottom: 2.5rem; line-height: 1.75; font-weight: 300; }
+  .join-form {
+    display: flex; flex-direction: column; gap: 1rem; text-align: left;
+    background: white; padding: 2.5rem; border-radius: 4px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+  }
+  .join-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #888; font-weight: 600; }
+  .form-group input, .form-group textarea, .form-group select {
+    padding: 0.8rem 1rem; border: 1px solid #e0d8c8;
+    border-radius: 2px; font-family: 'Literata', serif; font-size: 0.95rem;
+    color: var(--ink); background: var(--cream);
+    transition: border-color 0.2s; outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--moss);
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .btn-submit {
+    background: var(--cod-gold); color: white; border: none;
+    padding: 1rem 2rem; font-family: 'Literata', serif; font-size: 1rem;
+    letter-spacing: 0.04em; border-radius: 2px; cursor: pointer;
+    transition: background 0.2s; width: 100%;
+  }
+  .btn-submit:hover { background: #a07020; }
+  .join-note { font-size: 0.85rem; color: #999; }
+  .join-note a { color: var(--moss); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.7);
+    padding: 3rem 4rem 2rem;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 2.5rem;
+  }
+  .footer-brand { }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: white; font-weight: 700; margin-bottom: 1rem;
+  }
+  .footer-logo span { color: var(--cod-gold); }
+  .footer-brand p { font-size: 0.875rem; line-height: 1.7; max-width: 300px; }
+  .footer-brand .contact { margin-top: 1.25rem; font-size: 0.85rem; }
+  .footer-brand .contact a { color: var(--cod-gold); text-decoration: none; }
+  .footer-col h5 {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: white; font-weight: 600; margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--cod-gold); }
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom a { color: rgba(255,255,255,0.5); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding: 6rem 2rem 4rem; }
+    .hero-text { padding-right: 0; }
+    .hero-sub { margin: 0 auto 2rem; }
+    .hero-actions { justify-content: center; }
+    .hero-visual { margin-top: 3rem; }
+    .cod-inner { grid-template-columns: 1fr; }
+    .join-form-row { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .section, .cod-section, .services-section, .edu-section, .join-section { padding: 4rem 1.5rem; }
+    footer { padding: 3rem 1.5rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Community Exchange <span>NL</span></a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#cod-currency">COD Currency</a></li>
+    <li><a href="#services">Browse Services</a></li>
+    <li><a href="#learn">Learn</a></li>
+    <li><a href="#join" class="nav-cta">Get Involved</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text fade-up">
+    <div class="hero-eyebrow">Local Exchange Trading System · Newfoundland & Labrador</div>
+    <h1>Trade Skills,<br><em>Build Community</em></h1>
+    <p class="hero-sub">Community Exchange NL lets you exchange goods and services with your neighbours using COD — Newfoundland's own community currency. Trade in COD, cash, or a mix of both.</p>
+    <div class="hero-actions">
+      <a href="#join" class="btn-primary">Register Your Interest →</a>
+      <a href="#how-it-works" class="btn-secondary">How It Works</a>
+    </div>
+  </div>
+  <div class="hero-visual fade-up">
+    <img src="assets/logo/codstock.avif" alt="Newfoundland Codfish Currency — vintage one-cent stamp illustration" class="hero-logo" width="446" height="602">
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">COD</div>
+        <div class="stat-label">Community Currency</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Community Run</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">NL</div>
+        <div class="stat-label">Local Currency</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#f5f0e8"/>
+  </svg>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works" style="background: var(--cream);">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-label fade-up">Getting Started</div>
+    <h2 class="section-title fade-up">Trading without cash<br>is simpler than you think.</h2>
+    <p class="section-sub fade-up">Here's how our community exchange works — from registration through to your first trade.</p>
+    <div class="steps-grid">
+      <div class="step fade-up">
+        <div class="step-num">01</div>
+        <div class="step-icon">📋</div>
+        <h3>Register Interest</h3>
+        <p>Once approved, you'll receive your online COD account with an initial credit limit — enough to start trading right away.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">02</div>
+        <div class="step-icon">📖</div>
+        <h3>List Your Offerings</h3>
+        <p>Post the goods and services you're happy to trade in our online directory — anything from plumbing and baking to tutoring and dog-walking. You set your own price.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">03</div>
+        <div class="step-icon">🤝</div>
+        <h3>Connect & Trade</h3>
+        <p>Browse other members' listings on Cyclos, our secure trading platform. Contact the person directly and agree on the terms of your trade.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">04</div>
+        <div class="step-icon">🐟</div>
+        <h3>Transfer COD</h3>
+        <p>Pay with COD — Newfoundland's own community currency. Transactions are tracked in your online account, similar to online banking. Some members accept a mix of COD and cash.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COD CURRENCY -->
+<section class="cod-section" id="cod-currency">
+  <div class="cod-inner">
+    <div>
+      <div class="section-label fade-up">Our Local Currency</div>
+      <h2 class="section-title fade-up">Meet the <em style="font-style:italic;">COD</em></h2>
+      <p class="section-sub fade-up">In keeping with Newfoundland's tradition of using codfish as currency, we chose COD — "Cash on Delivery" — as the name for our community credit. It's more than a currency; it's a nod to our shared heritage.</p>
+      <a href="#join" class="btn-secondary" style="margin-top:0.5rem;">Get Started with COD →</a>
+    </div>
+    <div class="cod-features">
+      <div class="cod-feature fade-up">
+        <div class="cod-feature-icon">🏦</div>
+        <div>
+          <h4>Your Own Account</h4>
+          <p>Each member gets an online account through our Cyclos platform that tracks your COD balance and trading history.</p>
+        </div>
+      </div>
+      <div class="cod-feature fade-up">
+        <div class="cod-feature-icon">⚖️</div>
+        <div>
+          <h4>You Set the Terms</h4>
+          <p>Decide if you accept 100% COD or a mix with Canadian dollars. Taxable portions of a transaction can be charged in cash, keeping things fair and legal.</p>
+        </div>
+      </div>
+      <div class="cod-feature fade-up">
+        <div class="cod-feature-icon">🔒</div>
+        <div>
+          <h4>Secure & Transparent</h4>
+          <p>All trades are recorded through Cyclos, an internationally trusted community exchange platform. Your balance is always visible, always accurate.</p>
+        </div>
+      </div>
+      <div class="cod-feature fade-up">
+        <div class="cod-feature-icon">🚀</div>
+        <div>
+          <h4>Start Trading Quickly</h4>
+          <p>New members receive an initial credit limit — enough to start trading before you've even listed a single service.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="services-inner">
+    <div class="section-label fade-up">Member Marketplace</div>
+    <h2 class="section-title fade-up">Services available right now</h2>
+    <p class="section-sub fade-up">These are the kinds of goods and services being traded across Newfoundland and Labrador every day. Browse the full live directory on Cyclos.</p>
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-icon">🍞</div>
+        <h4>Baking & Food</h4>
+        <p>Fresh bread, preserves, canned goods</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🌿</div>
+        <h4>Garden Produce</h4>
+        <p>Vegetables, herbs, seedlings</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🔨</div>
+        <h4>Home Repair</h4>
+        <p>Carpentry, painting, odd jobs</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">💻</div>
+        <h4>Tech Support</h4>
+        <p>Computer help, website assistance</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">📚</div>
+        <h4>Tutoring</h4>
+        <p>Academic subjects, music, languages</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🐾</div>
+        <h4>Pet Care</h4>
+        <p>Dog walking, pet sitting, grooming</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">✂️</div>
+        <h4>Sewing & Crafts</h4>
+        <p>Alterations, knitting, handmade goods</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🚗</div>
+        <h4>Transportation</h4>
+        <p>Errands, rides, moving help</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🧘</div>
+        <h4>Wellness</h4>
+        <p>Yoga, massage, holistic health</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🎨</div>
+        <h4>Creative Services</h4>
+        <p>Photography, design, writing</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🌲</div>
+        <h4>Outdoor Services</h4>
+        <p>Firewood, lawn care, snowblowing</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">➕</div>
+        <h4>Your Skill Here</h4>
+        <p>Join and add what you offer</p>
+      </div>
+    </div>
+    <div class="services-cta-bar fade-up">
+      <p>The full member marketplace is launching soon. <strong>Powered by Cyclos.</strong></p>
+      <a href="#join" class="btn-primary">Register Your Interest →</a>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="learn">
+  <div class="edu-inner">
+    <div class="section-label fade-up">Learn More</div>
+    <h2 class="section-title fade-up">Understand the bigger picture</h2>
+    <p class="section-sub fade-up">LETS systems are a global movement. Here are resources to understand how mutual credit works, its history, and how communities are using complementary currencies alongside conventional money.</p>
+    <div class="edu-grid">
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-green">Beginner</span>
+          <h3>What is a LETS System?</h3>
+          <p>A Local Exchange Trading System (LETS) is a community-organized network that allows members to buy and sell services using a locally created currency — sometimes combined with conventional money.</p>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://en.wikipedia.org/wiki/Local_exchange_trading_system" target="_blank" class="edu-link">Read on Wikipedia →</a>
+        </div>
+      </div>
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-blue">Background</span>
+          <h3>History of Mutual Credit</h3>
+          <p>Mutual credit systems have roots going back centuries. Modern LETS networks were pioneered in Canada in the 1980s and have since spread to communities worldwide.</p>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://www.appropedia.org/Local_exchange_trading_systems" target="_blank" class="edu-link">Explore History →</a>
+        </div>
+      </div>
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-gold">Platform</span>
+          <h3>About Cyclos</h3>
+          <p>Our exchange is powered by Cyclos, a professional-grade community banking and trading platform trusted by LETS groups, time banks, and credit unions globally.</p>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://www.cyclos.org" target="_blank" class="edu-link">Visit Cyclos.org →</a>
+        </div>
+      </div>
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-green">Global</span>
+          <h3>LETS Worldwide</h3>
+          <p>From New Zealand to the UK, mutual credit networks operate in communities around the world. Discover how similar systems are supporting local economies.</p>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://www.complementarycurrency.org" target="_blank" class="edu-link">Complementary Currency →</a>
+        </div>
+      </div>
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-blue">Economics</span>
+          <h3>Why Alternative Currency?</h3>
+          <p>When conventional money is scarce, communities still have skills and needs. Complementary currencies activate dormant resources, creating resilience and reducing inequality.</p>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://neweconomics.org/2015/06/people-powered-money" target="_blank" class="edu-link">New Economics Foundation →</a>
+        </div>
+      </div>
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-gold">Important</span>
+          <h3>Taxes & Community Currency</h3>
+          <p>Trades made using community currency may have tax implications under Canadian law. Members are responsible for reporting income as required by the CRA, just as with any other form of payment.</p>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/it490/archived-barter-transactions.html" target="_blank" class="edu-link">CRA Guidance →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="join-section" id="join">
+  <div class="join-inner">
+    <div class="section-label fade-up">Get Involved</div>
+    <h2 class="section-title fade-up">Interested? Let us know.</h2>
+    <p class="fade-up">We're growing carefully to build a strong foundation. Membership is currently by invitation, with plans to open to the wider public soon. Register your interest below and a community coordinator will be in touch.</p>
+    <form class="join-form fade-up" onsubmit="handleSubmit(event)">
+      <div class="join-form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="e.g. Mary" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="e.g. Brown" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Phone (optional)</label>
+        <input type="tel" placeholder="709-000-0000">
+      </div>
+      <div class="form-group">
+        <label>Town / Community</label>
+        <input type="text" placeholder="e.g. St. John's, CBS, Gander...">
+      </div>
+      <div class="form-group">
+        <label>What can you offer the community?</label>
+        <textarea placeholder="e.g. baking, IT help, carpentry, gardening, childcare..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>What are you hoping to receive?</label>
+        <textarea placeholder="e.g. firewood, bookkeeping, yoga lessons..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Register My Interest 🐟</button>
+    </form>
+    <p class="join-note">Or <a href="#" class="email-link" data-u="communityexchangenl" data-d="gmail.com">email us directly</a> · All expressions of interest are reviewed by our community coordinators.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Community Exchange <span>NL</span></div>
+      <p>A mutual credit exchange community for Newfoundland and Labrador. Trade locally, strengthen community, and keep value circulating close to home.</p>
+      <div class="contact">
+        ✉ <a href="#" class="email-link" data-u="communityexchangenl" data-d="gmail.com">contact us</a><br>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#cod-currency">COD Currency</a></li>
+        <li><a href="#services">Browse Services</a></li>
+        <li><a href="#learn">Learn More</a></li>
+        <li><a href="#join">Get Involved</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="https://www.cyclos.org" target="_blank">Cyclos Platform</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Local_exchange_trading_system" target="_blank">About LETS</a></li>
+        <li><a href="https://www.complementarycurrency.org" target="_blank">Complementary Currency</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Community Exchange NL · St. John's, NL</span>
+    <span><a href="https://communityexchangenl.com">communityexchangenl.com</a></span>
+  </div>
+</footer>
+
+<script>
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Email link assembly — address stays out of static HTML
+  document.querySelectorAll('.email-link').forEach(a => {
+    const addr = a.dataset.u + '@' + a.dataset.d;
+    a.href = 'mailto:' + addr;
+    a.title = addr;
+  });
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('Thank you for your interest in Community Exchange NL! This is a demo — no data was sent.');
+    event.target.reset();
+  }
+</script>
+</body>
+</html>

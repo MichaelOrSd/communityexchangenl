@@ -1,0 +1,26 @@
+# Internal project docs — keep local, do not publish
+docs/
+PROJECT.md
+CLAUDE.md
+
+# Claude Code workspace state
+.claude/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor state
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Env / secrets (defensive — no current files match, just future-proofing)
+.env
+.env.*
+*.pem
+*.key
