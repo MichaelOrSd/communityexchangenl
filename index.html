@@ -53,8 +53,27 @@
   }
 
   /* ── NAV ── */
+  html { scroll-padding-top: 8rem; }
+  .site-header { position: fixed; top: 0; width: 100%; z-index: 100; }
+  .brand-banner {
+    background: var(--moss);
+    color: var(--cream);
+    text-align: center;
+    padding: 0.55rem 2rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
+    border-bottom: 1px solid rgba(200,146,42,0.45);
+  }
+  .brand-banner-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; line-height: 1.05; letter-spacing: 0.01em;
+  }
+  .brand-banner-name span { color: var(--cod-gold-light); }
+  .brand-banner-tag {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.82);
+  }
   nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
+    position: relative;
     background: rgba(250,247,242,0.95);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(200,146,42,0.2);
@@ -105,7 +124,7 @@
   .hero {
     min-height: 100vh;
     display: grid; grid-template-columns: 1fr 1fr; align-items: center;
-    padding: 8rem 4rem 4rem;
+    padding: 10rem 4rem 4rem;
     position: relative; overflow: hidden;
     background: var(--parchment);
   }
@@ -323,6 +342,9 @@
   .tag-gold { background: rgba(200,146,42,0.1); color: var(--cod-gold); }
   .edu-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--ink); margin-bottom: 0.6rem; }
   .edu-card p { font-size: 0.875rem; color: #666; line-height: 1.65; font-weight: 300; }
+  .edu-card p + p { margin-top: 0.75rem; }
+  .edu-card ul { font-size: 0.875rem; color: #666; line-height: 1.6; font-weight: 300; padding-left: 1.1rem; margin-top: 0.6rem; }
+  .edu-card li { margin-bottom: 0.35rem; }
   .edu-card-bottom {
     padding: 1.25rem 2rem;
     display: flex; align-items: center; justify-content: space-between;
@@ -420,7 +442,10 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; text-align: center; padding: 6rem 2rem 4rem; }
+    .hero { grid-template-columns: 1fr; text-align: center; padding: 9rem 2rem 4rem; }
+    .brand-banner { padding: 0.5rem 1rem; }
+    .brand-banner-name { font-size: 1.2rem; }
+    .brand-banner-tag { font-size: 0.6rem; letter-spacing: 0.12em; }
     .hero-text { padding-right: 0; }
     .hero-sub { margin: 0 auto 2rem; }
     .hero-actions { justify-content: center; }
@@ -452,6 +477,11 @@
 <body>
 
 <!-- NAV -->
+<header class="site-header">
+<div class="brand-banner">
+  <span class="brand-banner-name">Community Exchange <span>NL</span></span>
+  <span class="brand-banner-tag">A Newfoundland &amp; Labrador Mutual Credit Network</span>
+</div>
 <nav>
   <a class="nav-logo" href="#">
     <img src="assets/logo/communityExchange.png" alt="" class="nav-mark" width="36" height="36">
@@ -470,12 +500,13 @@
     <li><a href="#join" class="nav-cta">Get Involved</a></li>
   </ul>
 </nav>
+</header>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-text fade-up">
     <div class="hero-eyebrow">Local Exchange Trading System · Newfoundland & Labrador</div>
-    <h1>Trade Skills,<br><em>Build Community</em></h1>
+    <h1>Trade Goods and Services,<br><em>Build Community</em></h1>
     <p class="hero-sub">Community Exchange NL lets you exchange goods and services with your neighbours using COD — Newfoundland's own community currency. Trade in COD, cash, or a mix of both.</p>
     <div class="hero-actions">
       <a href="#join" class="btn-primary">Register Your Interest →</a>
@@ -520,7 +551,7 @@
         <div class="step-num">01</div>
         <div class="step-icon" aria-hidden="true">📋</div>
         <h3>Register Interest</h3>
-        <p>Once approved, you'll receive your online COD account with an initial credit limit — enough to start trading right away.</p>
+        <p>Once members have been approved for a credit limit and have listed their offers in the online directory, they can start trading right away.</p>
       </div>
       <div class="step fade-up">
         <div class="step-num">02</div>
@@ -573,13 +604,6 @@
         <div>
           <h4>Secure & Transparent</h4>
           <p>All trades are recorded through Cyclos, an internationally trusted community exchange platform. Your balance is always visible, always accurate.</p>
-        </div>
-      </div>
-      <div class="cod-feature fade-up">
-        <div class="cod-feature-icon" aria-hidden="true">🚀</div>
-        <div>
-          <h4>Start Trading Quickly</h4>
-          <p>New members receive an initial credit limit — enough to start trading before you've even listed a single service.</p>
         </div>
       </div>
     </div>
@@ -666,36 +690,46 @@
   <div class="edu-inner">
     <div class="section-label fade-up">Learn More</div>
     <h2 class="section-title fade-up">Understand the bigger picture</h2>
-    <p class="section-sub fade-up">LETS systems are a global movement. Here are resources to understand how mutual credit works, its history, and how communities are using complementary currencies alongside conventional money.</p>
+    <p class="section-sub fade-up">Community currencies (also called local or complementary currencies) are a global movement, with many different models operating worldwide.</p>
+    <p class="section-sub fade-up">Community Exchange NL is a "Local Exchange Trading System," or LETSystem (also known as a mutual credit system). Rather than relying on bank-issued credit, members offer interest-free credit to each other in a decentralized network.</p>
     <div class="edu-grid">
       <div class="edu-card fade-up">
         <div class="edu-card-top">
-          <span class="edu-tag tag-green">Beginner</span>
-          <h3>What is a LETS System?</h3>
-          <p>A Local Exchange Trading System (LETS) is a community-organized network that allows members to buy and sell services using a locally created currency — sometimes combined with conventional money.</p>
+          <span class="edu-tag tag-blue">Economics</span>
+          <h3>Bank Debt Money vs. Community Currency</h3>
+          <p>Most money in circulation today was created as interest-bearing debt, owed to a private bank. LETS credits are interest free and created by us, backed by real goods and services received in trade.</p>
+          <p>Regular money is scarce. LETS credits are as abundant as the goods, services, talents, and resources available in the community!</p>
+          <p>Regular money tends to leave the community quickly, when purchases are made from multi-national corporations. LETS credits stay within the community, generating a chain reaction of local trade that boosts the local economy and buffers it against macro-economic fluctuations.</p>
         </div>
         <div class="edu-card-bottom">
-          <a href="https://en.wikipedia.org/wiki/Local_exchange_trading_system" target="_blank" class="edu-link">Read on Wikipedia →</a>
+          <a href="https://scf.green/what/currencies/" target="_blank" rel="noopener noreferrer" class="edu-link">Read more →</a>
+          <a href="https://beyondmoney.net/" target="_blank" rel="noopener noreferrer" class="edu-link">Dive deeper with Thomas Greco →</a>
+        </div>
+      </div>
+      <div class="edu-card fade-up">
+        <div class="edu-card-top">
+          <span class="edu-tag tag-green">Benefits</span>
+          <h3>Benefits of LETS</h3>
+          <p>LETS helps to bridge the disconnect between unmet needs and underutilized resources in our communities, that often occurs due to a lack of money:</p>
+          <ul>
+            <li>enabling people to help each other by sharing their talents and resources;</li>
+            <li>helping families to make ends meet;</li>
+            <li>providing local businesses with interest-free credit, new customers, promotional opportunities, and a means to reduce cash expenses;</li>
+            <li>supporting not-for-profit organizations and community projects.</li>
+          </ul>
+        </div>
+        <div class="edu-card-bottom">
+          <a href="https://sydneylets.org/benefits-of-lets/" target="_blank" rel="noopener noreferrer" class="edu-link">Benefits of LETS — Sydney LETS →</a>
         </div>
       </div>
       <div class="edu-card fade-up">
         <div class="edu-card-top">
           <span class="edu-tag tag-blue">Background</span>
-          <h3>History of Mutual Credit</h3>
-          <p>Mutual credit systems have roots going back centuries. Modern LETS networks were pioneered in Canada in the 1980s and have since spread to communities worldwide.</p>
+          <h3>Mutual Credit FAQs</h3>
+          <p>The beginnings of mutual credit go back to the 19th century, and are rooted in the much more ancient practice of barter. Click below to learn more about the history of mutual credit and find answers to your other burning questions!</p>
         </div>
         <div class="edu-card-bottom">
-          <a href="https://www.appropedia.org/Local_exchange_trading_systems" target="_blank" class="edu-link">Explore History →</a>
-        </div>
-      </div>
-      <div class="edu-card fade-up">
-        <div class="edu-card-top">
-          <span class="edu-tag tag-gold">Platform</span>
-          <h3>About Cyclos</h3>
-          <p>Our exchange is powered by Cyclos, a professional-grade community banking and trading platform trusted by LETS groups, time banks, and credit unions globally.</p>
-        </div>
-        <div class="edu-card-bottom">
-          <a href="https://www.cyclos.org" target="_blank" class="edu-link">Visit Cyclos.org →</a>
+          <a href="https://creditcommonssociety.org/mutual-credit/" target="_blank" rel="noopener noreferrer" class="edu-link">Credit Commons Society →</a>
         </div>
       </div>
       <div class="edu-card fade-up">
@@ -705,27 +739,27 @@
           <p>From New Zealand to the UK, mutual credit networks operate in communities around the world. Discover how similar systems are supporting local economies.</p>
         </div>
         <div class="edu-card-bottom">
-          <a href="https://www.complementarycurrency.org" target="_blank" class="edu-link">Complementary Currency →</a>
+          <a href="https://centerforneweconomics.org/apply/local-currencies-program/localcurrenciesdirectory/" target="_blank" rel="noopener noreferrer" class="edu-link">Local Currencies Directory →</a>
         </div>
       </div>
       <div class="edu-card fade-up">
         <div class="edu-card-top">
-          <span class="edu-tag tag-blue">Economics</span>
-          <h3>Why Alternative Currency?</h3>
-          <p>When conventional money is scarce, communities still have skills and needs. Complementary currencies activate dormant resources, creating resilience and reducing inequality.</p>
+          <span class="edu-tag tag-gold">Platform</span>
+          <h3>About Cyclos</h3>
+          <p>Our exchange is powered by Cyclos, a professional-grade community banking and trading platform trusted by LETS groups, time banks, and credit unions globally.</p>
         </div>
         <div class="edu-card-bottom">
-          <a href="https://beyondmoney.net/" target="_blank" class="edu-link">Thomas Greco — Beyond Money →</a>
+          <a href="https://www.cyclos.org" target="_blank" rel="noopener noreferrer" class="edu-link">Visit Cyclos.org →</a>
         </div>
       </div>
       <div class="edu-card fade-up">
         <div class="edu-card-top">
           <span class="edu-tag tag-gold">Important</span>
           <h3>Taxes & Community Currency</h3>
-          <p>Trades made using community currency may have tax implications under Canadian law. Members are responsible for reporting income as required by the CRA, just as with any other form of payment.</p>
+          <p>Trades made using community currency may have tax implications under Canadian law. If a transaction is taxable, members charge the taxable portion in cash and remit it to the government. Likewise, qualifying donations and expenses in COD may count toward tax deductions.</p>
         </div>
         <div class="edu-card-bottom">
-          <a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/it490/archived-barter-transactions.html" target="_blank" class="edu-link">CRA Guidance →</a>
+          <a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/it490/archived-barter-transactions.html" target="_blank" rel="noopener noreferrer" class="edu-link">CRA Guidance →</a>
         </div>
       </div>
     </div>
@@ -769,8 +803,8 @@
       <h5>Resources</h5>
       <ul>
         <li><a href="https://www.cyclos.org" target="_blank">Cyclos Platform</a></li>
-        <li><a href="https://en.wikipedia.org/wiki/Local_exchange_trading_system" target="_blank">About LETS</a></li>
-        <li><a href="https://www.complementarycurrency.org" target="_blank">Complementary Currency</a></li>
+        <li><a href="https://creditcommonssociety.org/mutual-credit/" target="_blank" rel="noopener noreferrer">Mutual Credit</a></li>
+        <li><a href="https://centerforneweconomics.org/apply/local-currencies-program/localcurrenciesdirectory/" target="_blank" rel="noopener noreferrer">Local Currencies Directory</a></li>
       </ul>
     </div>
   </div>
